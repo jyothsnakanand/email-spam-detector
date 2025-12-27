@@ -26,6 +26,19 @@ if ! pyenv versions | grep -q "3.12.3"; then
 fi
 pyenv local 3.12.3
 
+# Create virtual environment
+echo "🔨 Creating virtual environment..."
+if [ ! -d ".venv" ]; then
+    uv venv
+    echo "   Virtual environment created at .venv"
+else
+    echo "   Virtual environment already exists"
+fi
+
+# Activate virtual environment
+echo "🔌 Activating virtual environment..."
+source .venv/bin/activate
+
 # Install dependencies
 echo "📥 Installing dependencies..."
 uv pip install -e ".[dev,test,lint]"
@@ -54,6 +67,9 @@ pytest -v
 
 echo ""
 echo "✅ Setup complete!"
+echo ""
+echo "⚠️  Don't forget to activate the virtual environment:"
+echo "   source .venv/bin/activate"
 echo ""
 echo "Next steps:"
 echo "  • Start API server:    make api  (or python -m spam_detector.api)"

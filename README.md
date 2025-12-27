@@ -135,14 +135,17 @@ cd email-spam-detector
 pyenv local 3.12.3
 ```
 
-### 2. Install Dependencies
+### 2. Create Virtual Environment and Install Dependencies
 
 ```bash
-# Install project dependencies with uv
-uv pip install -e ".[dev,test,lint]"
+# Create virtual environment with uv
+uv venv
 
-# Or install all dev dependencies
-uv sync
+# Activate virtual environment
+source .venv/bin/activate
+
+# Install project dependencies
+uv pip install -e ".[dev,test,lint]"
 ```
 
 ### 3. Setup Pre-commit Hooks
