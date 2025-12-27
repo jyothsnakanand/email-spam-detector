@@ -10,11 +10,11 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 
-from spam_detector.api import app
+from spam_detector import api
 from spam_detector.config import settings
 
 
-@pytest.fixture
+@pytest.fixture(scope="function")
 def mock_model() -> Path:
     """Create a mock trained model for testing."""
     # Create a simple mock model
@@ -39,13 +39,18 @@ def mock_model() -> Path:
         return Path(f.name)
 
 
-@pytest.fixture
-def client(mock_model: Path, monkeypatch: pytest.MonkeyPatch) -> TestClient:
+@pytest.fixture(scope="function")
+def client(mock_model: Path, monkeypatch: pytest.MonkeyPatch) -> TestClient:  # type: ignore[misc]
     """Create test client with mock model."""
-    # Override model path in settings
+    # Patch settings before importing app
     monkeypatch.setattr(settings, "model_path", mock_model)
 
-    return TestClient(app)
+    # Clear the global predictor to force reload
+    api.predictor = None
+
+    # Create client which will trigger lifespan and load our mock model
+    with TestClient(api.app) as test_client:
+        yield test_client
 
 
 def test_health_check(client: TestClient) -> None:
