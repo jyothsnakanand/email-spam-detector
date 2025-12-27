@@ -80,9 +80,7 @@ class SpamDetectorTrainer:
             texts, labels, test_size=self.test_size, random_state=self.random_state, stratify=labels
         )
 
-        logger.info(
-            f"Train size: {len(X_train)}, Test size: {len(X_test)}"
-        )
+        logger.info(f"Train size: {len(X_train)}, Test size: {len(X_test)}")
 
         # Create TF-IDF vectorizer
         self.vectorizer = TfidfVectorizer(

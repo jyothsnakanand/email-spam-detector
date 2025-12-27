@@ -1,8 +1,8 @@
 """FastAPI application for spam detection inference."""
 
 import logging
+from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
-from typing import AsyncIterator
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
@@ -115,7 +115,9 @@ async def predict_email(request: EmailRequest) -> PredictionResponse:
         )
     except Exception as e:
         logger.error(f"Prediction failed: {e}")
-        raise HTTPException(status_code=500, detail=f"Prediction failed: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Prediction failed: {str(e)}"
+        ) from e
 
 
 @app.post("/predict/batch", response_model=BatchPredictionResponse)
@@ -142,7 +144,7 @@ async def predict_email_batch(request: EmailBatchRequest) -> BatchPredictionResp
                 confidence=conf,
                 is_spam=pred == "spam",
             )
-            for text, (pred, conf) in zip(request.texts, results)
+            for text, (pred, conf) in zip(request.texts, results, strict=False)
         ]
 
         return BatchPredictionResponse(
@@ -151,7 +153,9 @@ async def predict_email_batch(request: EmailBatchRequest) -> BatchPredictionResp
         )
     except Exception as e:
         logger.error(f"Batch prediction failed: {e}")
-        raise HTTPException(status_code=500, detail=f"Batch prediction failed: {str(e)}")
+        raise HTTPException(
+            status_code=500, detail=f"Batch prediction failed: {str(e)}"
+        ) from e
 
 
 def main() -> None:

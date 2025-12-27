@@ -42,4 +42,4 @@ repos:
         pass_filenames: false
         always_run: true
         args: ['-v', '--tb=short']
-        stages: [commit]
+        stages: [pre-commit]

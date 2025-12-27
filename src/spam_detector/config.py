@@ -38,9 +38,7 @@ class Settings(BaseSettings):
     )
     test_size: float = Field(default=0.2, description="Test set size ratio", ge=0.0, le=1.0)
     random_state: int = Field(default=42, description="Random seed for reproducibility")
-    max_features: int = Field(
-        default=5000, description="Maximum features for vectorization", gt=0
-    )
+    max_features: int = Field(default=5000, description="Maximum features for vectorization", gt=0)
 
     # API Settings
     api_host: str = Field(default="0.0.0.0", description="API host")
@@ -56,9 +54,7 @@ class Settings(BaseSettings):
     generated_data_size: int = Field(
         default=5000, description="Number of samples to generate", gt=0
     )
-    spam_ratio: float = Field(
-        default=0.4, description="Ratio of spam emails", ge=0.0, le=1.0
-    )
+    spam_ratio: float = Field(default=0.4, description="Ratio of spam emails", ge=0.0, le=1.0)
 
 
 # Global settings instance
