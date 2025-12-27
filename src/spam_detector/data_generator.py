@@ -92,10 +92,10 @@ def generate_legitimate_email() -> str:
         f"we discussed. {random.choice(['Let me know if you have questions', 'Thanks', 'Best regards'])}.",
         f"Following up on {random.choice(['our conversation', 'the code review', 'your request'])}. "
         f"{random.choice(['The changes look good', 'Everything is approved', 'Ready to proceed'])}. "
-        f"{random.choice(['Thanks for your help', 'Let me know', 'Best']}.",
+        f"{random.choice(['Thanks for your help', 'Let me know', 'Best'])}.",
         f"Hi, {random.choice(['calendar invite sent', 'delivery confirmation', 'support ticket updated'])} "
         f"for {random.choice(['your order', 'the meeting', 'case #' + str(random.randint(1000, 9999))])}. "
-        f"{random.choice(['Thanks', 'Regards', 'Best']}.",
+        f"{random.choice(['Thanks', 'Regards', 'Best'])}.",
     ]
     return random.choice(templates)
 
@@ -152,7 +152,7 @@ def main() -> None:
         output_path=settings.train_data_path,
     )
 
-    print(f"\nDataset statistics:")
+    print("\nDataset statistics:")
     print(f"Total samples: {len(df)}")
     print(f"Label distribution:\n{df['label'].value_counts()}")
 
